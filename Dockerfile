@@ -6,6 +6,7 @@ RUN corepack enable
 
 FROM base AS deps
 WORKDIR /app
+ENV NODE_ENV=development
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY cli/package.json cli/
 COPY server/package.json server/
@@ -24,6 +25,7 @@ RUN pnpm install --no-frozen-lockfile
 
 FROM base AS build
 WORKDIR /app
+ENV NODE_ENV=development
 COPY --from=deps /app /app
 COPY . .
 RUN pnpm --filter @paperclipai/ui build
